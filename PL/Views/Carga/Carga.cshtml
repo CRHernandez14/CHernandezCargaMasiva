@@ -1,0 +1,29 @@
+﻿@{
+    ViewBag.Title = "Carga";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Carga Masiva</title>
+</head>
+<body>
+    @using (Html.BeginForm("Carga", "Carga", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        <div class="container">
+            <br />
+            <div class="row text-center">
+                <h1>Carga Masiva</h1>
+                <br />
+                <h6>Sube un archivo para cargarlo en la base de datos</h6>
+            </div>
+            <hr />
+            <br />
+            <div class="row">
+                @Html.TextBox("csv", "", new { type = "file" }) <br />
+            </div>
+            <input type="submit" class="btn btn-dark" value="Enviar" />
+        </div>
+    }
+</body>
+</html>
+

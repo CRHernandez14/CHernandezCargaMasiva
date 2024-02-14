@@ -1,0 +1,171 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="CHernandezCargarMasivaModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'CHernandezCargarMasiva.dbo.Cargo' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="Cargo">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Amount" />
+            <PropertyRef Name="Status" />
+            <PropertyRef Name="Create_At" />
+          </Key>
+          <Property Name="Id" Type="varchar" MaxLength="24" Nullable="false" />
+          <Property Name="Amount" Type="decimal" Precision="22" Scale="2" Nullable="false" />
+          <Property Name="Status" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="Create_At" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
+          <Property Name="Update_At" Type="date" />
+          <Property Name="Company_Id" Type="varchar" MaxLength="130" />
+        </EntityType>
+        <EntityType Name="Company">
+          <Key>
+            <PropertyRef Name="IdCompany" />
+          </Key>
+          <Property Name="IdCompany" Type="varchar" MaxLength="130" Nullable="false" />
+          <Property Name="Company_Name" Type="varchar" MaxLength="24" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__Cargo__Company_I__1A14E395">
+          <End Role="Company" Type="Self.Company" Multiplicity="0..1" />
+          <End Role="Cargo" Type="Self.Cargo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="IdCompany" />
+            </Principal>
+            <Dependent Role="Cargo">
+              <PropertyRef Name="Company_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="CargaMasivaCSV" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Id" Type="varchar" Mode="In" />
+          <Parameter Name="Amount" Type="decimal" Mode="In" />
+          <Parameter Name="Status" Type="varchar" Mode="In" />
+          <Parameter Name="Update_At" Type="date" Mode="In" />
+          <Parameter Name="Company_Id" Type="varchar" Mode="In" />
+        </Function>
+        <EntityContainer Name="CHernandezCargarMasivaModelStoreContainer">
+          <EntitySet Name="Company" EntityType="Self.Company" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Cargo" EntityType="Self.Cargo" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Cargo].[Id] AS [Id], 
+    [Cargo].[Amount] AS [Amount], 
+    [Cargo].[Status] AS [Status], 
+    [Cargo].[Create_At] AS [Create_At], 
+    [Cargo].[Update_At] AS [Update_At], 
+    [Cargo].[Company_Id] AS [Company_Id]
+    FROM [dbo].[Cargo] AS [Cargo]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK__Cargo__Company_I__1A14E395" Association="Self.FK__Cargo__Company_I__1A14E395">
+            <End Role="Company" EntitySet="Company" />
+            <End Role="Cargo" EntitySet="Cargo" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="CHernandezCargarMasivaModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="CHernandezCargarMasivaEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Companies" EntityType="CHernandezCargarMasivaModel.Company" />
+          <EntitySet Name="Cargoes" EntityType="CHernandezCargarMasivaModel.Cargo" />
+          <AssociationSet Name="FK__Cargo__Company_I__1A14E395" Association="CHernandezCargarMasivaModel.FK__Cargo__Company_I__1A14E395">
+            <End Role="Company" EntitySet="Companies" />
+            <End Role="Cargo" EntitySet="Cargoes" />
+          </AssociationSet>
+          <FunctionImport Name="CargaMasivaCSV">
+            <Parameter Name="Id" Mode="In" Type="String" />
+            <Parameter Name="Amount" Mode="In" Type="Decimal" />
+            <Parameter Name="Status" Mode="In" Type="String" />
+            <Parameter Name="Update_At" Mode="In" Type="DateTime" />
+            <Parameter Name="Company_Id" Mode="In" Type="String" />
+          </FunctionImport>
+        </EntityContainer>
+        <EntityType Name="Company">
+          <Key>
+            <PropertyRef Name="IdCompany" />
+          </Key>
+          <Property Name="IdCompany" Type="String" Nullable="false" MaxLength="130" FixedLength="false" Unicode="false" />
+          <Property Name="Company_Name" Type="String" Nullable="false" MaxLength="24" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Cargoes" Relationship="CHernandezCargarMasivaModel.FK__Cargo__Company_I__1A14E395" FromRole="Company" ToRole="Cargo" />
+        </EntityType>
+        <EntityType Name="Cargo">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Amount" />
+            <PropertyRef Name="Status" />
+            <PropertyRef Name="Create_At" />
+          </Key>
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="24" FixedLength="false" Unicode="false" />
+          <Property Name="Amount" Type="Decimal" Nullable="false" Precision="22" Scale="2" />
+          <Property Name="Status" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="Create_At" Type="Binary" Nullable="false" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="Update_At" Type="DateTime" Precision="0" />
+          <Property Name="Company_Id" Type="String" MaxLength="130" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Company" Relationship="CHernandezCargarMasivaModel.FK__Cargo__Company_I__1A14E395" FromRole="Cargo" ToRole="Company" />
+        </EntityType>
+        <Association Name="FK__Cargo__Company_I__1A14E395">
+          <End Type="CHernandezCargarMasivaModel.Company" Role="Company" Multiplicity="0..1" />
+          <End Type="CHernandezCargarMasivaModel.Cargo" Role="Cargo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="IdCompany" />
+            </Principal>
+            <Dependent Role="Cargo">
+              <PropertyRef Name="Company_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="CHernandezCargarMasivaModelStoreContainer" CdmEntityContainer="CHernandezCargarMasivaEntities">
+          <EntitySetMapping Name="Companies">
+            <EntityTypeMapping TypeName="CHernandezCargarMasivaModel.Company">
+              <MappingFragment StoreEntitySet="Company">
+                <ScalarProperty Name="Company_Name" ColumnName="Company_Name" />
+                <ScalarProperty Name="IdCompany" ColumnName="IdCompany" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Cargoes">
+            <EntityTypeMapping TypeName="CHernandezCargarMasivaModel.Cargo">
+              <MappingFragment StoreEntitySet="Cargo">
+                <ScalarProperty Name="Company_Id" ColumnName="Company_Id" />
+                <ScalarProperty Name="Update_At" ColumnName="Update_At" />
+                <ScalarProperty Name="Create_At" ColumnName="Create_At" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="CargaMasivaCSV" FunctionName="CHernandezCargarMasivaModel.Store.CargaMasivaCSV" />
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
